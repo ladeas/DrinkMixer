@@ -7,7 +7,6 @@
 //
 
 #import "DrinkDetailViewController.h"
-#import "DrinkConstants.h"
 
 
 @interface DrinkDetailViewController ()
@@ -30,9 +29,9 @@
 {
     [super viewWillAppear:animated];
     
-    self.nameTextField.text = [self.drink objectForKey:@"name"];
-    self.directionsTextView.text = [self.drink objectForKey:@"directions"];
-    self.ingredientsTextView.text = [self.drink objectForKey:@"ingredients"];
+    self.nameTextField.text = [self.drink objectForKey:NAME_KEY];
+    self.directionsTextView.text = [self.drink objectForKey:DIRECTIONS_KEY];
+    self.ingredientsTextView.text = [self.drink objectForKey:INGREDIENTS_KEY];
     
     NSLog(@"This is the name of the drink: %@", NAME_KEY);
     NSLog(@"This is the directions for that drink: %@", DIRECTIONS_KEY);
@@ -42,6 +41,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.ingredientsScrollView.contentSize = self.view.frame.size;
+    
+    
 	// Do any additional setup after loading the view.
   //  self.nameTextField.text = self.drinkName;
 }

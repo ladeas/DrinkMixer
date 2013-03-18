@@ -9,6 +9,7 @@
 #import "DrinkMixerTableViewController.h"
 #import "DrinkDetailViewController.h"
 #import "DrinkConstants.h"
+#import "AddDrinkViewController.h"
 
 @interface DrinkMixerTableViewController ()
 
@@ -24,11 +25,6 @@
     }
     return self;
 }
-- (IBAction)addButtonPressed:(id)sender
-{
-    NSLog(@"Add button pressed");
-}
-
 
 
 - (void)viewDidLoad
@@ -48,13 +44,38 @@
     NSLog(@"%@", self.drinks);
     
     
+    // Register for application backgrounding so we can save data
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(writeDrinksToFile:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    
     
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    
+    self.tableView.allowsSelectionDuringEditing = YES;
+}
+
+- (void)writeDrinksToFile:(NSNotification *)notification
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"DrinkDirections" ofType:@"plist"];
+    NSLog(@"path: %@", path);
+    [self.drinks writeToFile:path atomically:YES];
+    
+    
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,78 +124,115 @@
     return cell;
  
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // this following line of code replaced the code that's on page 181
       //  [self performSegueWithIdentifier:@"manual" sender:self];
-    DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc] initWithNibName:@"DrinkDetailViewController" bundle:nil];
     
+    if (!self.editing) {
+//        DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc] initWithNibName:@"DrinkDetailViewController" bundle:nil];
+        DrinkDetailViewController *detailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"DrinkDescription"];
+        detailViewController.drink = [self.drinks objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
+    else {
+//        AddDrinkViewController *editingDrinkViewController = [[AddDrinkViewController alloc] initWithNibName:@"AddDrinkViewController" bundle:nil];
+        AddDrinkViewController *editingDrinkViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AddDrink"];
+        editingDrinkViewController.drink = [self.drinks objectAtIndex:indexPath.row];
+        editingDrinkViewController.drinkArray = self.drinks;
+        
+        UINavigationController *editingNavigationController = [[UINavigationController alloc] initWithRootViewController:editingDrinkViewController];
+//       [self presentViewController:editingNavigationController animated:YES];
+        [self presentViewController:editingNavigationController animated:YES completion:^{
+            
+        }];
+        
+    }
     
-    detailViewController.drink = [self.drinks objectAtIndex:indexPath.row];
-    
-    [self.navigationController pushViewController:detailViewController animated:YES];
 
+    
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        // delete the row from the data source
+        [self.drinks removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+    }
     
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    // this is what the book had, but this is the old way. 
+  //  DrinkDetailViewController *detailViewController = [[DrinkDetailViewController alloc] initWithNibName:@"DrinkDetailViewController" bundle:nil];
+    
+
+        // Make sure your segue name in storyboard is the same as this line
+        if ([[segue identifier] isEqualToString:@"toDetail"])
+        {
+            // Get reference to the destination view controller
+            DrinkDetailViewController *dvc = (DrinkDetailViewController *)[segue destinationViewController];
+            
+            
+            // Pass any objects to the view controller here, like...
+            
+            NSIndexPath *path = [self.tableView indexPathForCell:sender];
+            NSDictionary *drink = self.drinks[path.row];
+            
+            
+            
+            NSLog(@"what is the drink name: %@", drink);
+            
+            // Pass the information to your destination view
+        dvc.drink = drink;
+          
+        }
+    
+    if ([[segue identifier] isEqualToString:@"addSegue"])
+    {
+        NSLog(@"the add button was pressed!");
+        
+        AddDrinkViewController *advc = (AddDrinkViewController *) [segue destinationViewController];
+        advc.drinkArray = self.drinks;
+        
+        
+    }
+    
+    // index of model
+    // point to vc (an instance)
+    // set properties on that new dvc
+    
+    
+}
+    
+    
+    
+    
 //    NSIndexPath *path = [self.tableView indexPathForCell:sender];
 //    NSString *drinkName = self.drinks[path.row];
+//    //NSString *ingredients = [self.drinks[path.row]objectForKey:@"ingredients"];
+//    
 //    
 //    
 //    
 //    DrinkDetailViewController *dvc = (DrinkDetailViewController *) segue.destinationViewController;
 //    
 //    dvc.drinkName = drinkName;
+//    
+//    NSLog(@"The drink name is %@", drinkName);
+// 
+//    // public properties --. like the drink index for instance
+//
     
-    
-    // public properties --. like the drink index for instance
 
-    
-}
 
 
 

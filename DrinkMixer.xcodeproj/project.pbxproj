@@ -28,6 +28,7 @@
 		F797491D16F0EA76002027DD /* DrinkMixerSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F797491C16F0EA76002027DD /* DrinkMixerSecondViewController.m */; };
 		F797491F16F0EA76002027DD /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = F797491E16F0EA76002027DD /* second.png */; };
 		F797492116F0EA76002027DD /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F797492016F0EA76002027DD /* second@2x.png */; };
+		F7D1837C16F51EBD0061FCC5 /* AddDrinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7D1837B16F51EBD0061FCC5 /* AddDrinkViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		F797491C16F0EA76002027DD /* DrinkMixerSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrinkMixerSecondViewController.m; sourceTree = "<group>"; };
 		F797491E16F0EA76002027DD /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		F797492016F0EA76002027DD /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		F7D1837A16F51EBD0061FCC5 /* AddDrinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddDrinkViewController.h; sourceTree = "<group>"; };
+		F7D1837B16F51EBD0061FCC5 /* AddDrinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDrinkViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,19 +111,12 @@
 			isa = PBXGroup;
 			children = (
 				F7840A8F16F3876A0080F08C /* DrinkConstants.h */,
-				F708302916F2535C00BA6D2C /* DrinkDetailViewController.h */,
-				F708302A16F2535C00BA6D2C /* DrinkDetailViewController.m */,
 				F797490816F0EA76002027DD /* DrinkMixerAppDelegate.h */,
 				F797490916F0EA76002027DD /* DrinkMixerAppDelegate.m */,
 				F797491116F0EA76002027DD /* MainStoryboard.storyboard */,
-				F708301616F1051F00BA6D2C /* DrinkMixerTableViewController.h */,
-				F708301716F1051F00BA6D2C /* DrinkMixerTableViewController.m */,
-				F797491416F0EA76002027DD /* DrinkMixerFirstViewController.h */,
-				F797491516F0EA76002027DD /* DrinkMixerFirstViewController.m */,
+				F7D1837D16F51F770061FCC5 /* ViewControllers */,
 				F797491716F0EA76002027DD /* first.png */,
 				F797491916F0EA76002027DD /* first@2x.png */,
-				F797491B16F0EA76002027DD /* DrinkMixerSecondViewController.h */,
-				F797491C16F0EA76002027DD /* DrinkMixerSecondViewController.m */,
 				F797491E16F0EA76002027DD /* second.png */,
 				F797492016F0EA76002027DD /* second@2x.png */,
 				F797490016F0EA76002027DD /* Supporting Files */,
@@ -143,6 +139,23 @@
 				F797490F16F0EA76002027DD /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F7D1837D16F51F770061FCC5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F708301616F1051F00BA6D2C /* DrinkMixerTableViewController.h */,
+				F708301716F1051F00BA6D2C /* DrinkMixerTableViewController.m */,
+				F708302916F2535C00BA6D2C /* DrinkDetailViewController.h */,
+				F708302A16F2535C00BA6D2C /* DrinkDetailViewController.m */,
+				F7D1837A16F51EBD0061FCC5 /* AddDrinkViewController.h */,
+				F7D1837B16F51EBD0061FCC5 /* AddDrinkViewController.m */,
+				F797491416F0EA76002027DD /* DrinkMixerFirstViewController.h */,
+				F797491516F0EA76002027DD /* DrinkMixerFirstViewController.m */,
+				F797491B16F0EA76002027DD /* DrinkMixerSecondViewController.h */,
+				F797491C16F0EA76002027DD /* DrinkMixerSecondViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +238,7 @@
 				F797491D16F0EA76002027DD /* DrinkMixerSecondViewController.m in Sources */,
 				F708301816F1051F00BA6D2C /* DrinkMixerTableViewController.m in Sources */,
 				F708302B16F2535C00BA6D2C /* DrinkDetailViewController.m in Sources */,
+				F7D1837C16F51EBD0061FCC5 /* AddDrinkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

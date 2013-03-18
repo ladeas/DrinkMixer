@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DrinkConstants.h"
 
 
 @interface DrinkDetailViewController : UIViewController
@@ -16,5 +17,7 @@
 @property (weak, nonatomic) NSDictionary *drink;
 
 @property (nonatomic, strong) NSString *drinkName;
+@property (nonatomic, strong) NSString *ingredients;
+@property (weak, nonatomic) IBOutlet UIScrollView *ingredientsScrollView;
 
 @end
